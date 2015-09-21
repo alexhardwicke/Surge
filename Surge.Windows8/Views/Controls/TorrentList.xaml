@@ -1,0 +1,233 @@
+﻿<UserControl
+    x:Class="Surge.Windows8.Views.Controls.TorrentList"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:wte="using:WinRTXamlToolkit.Controls.Extensions"
+    mc:Ignorable="d"
+    d:DesignHeight="600"
+    d:DesignWidth="515">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <Style x:Key="TorrentListStyle" TargetType="ListViewItem">
+                <Setter Property="TabNavigation" Value="Local"/>
+                <Setter Property="IsHoldingEnabled" Value="True"/>
+                <Setter Property="Margin" Value="-1, -1, -1, -1" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ListViewItem">
+                            <ListViewItemPresenter ContentTransitions="{TemplateBinding ContentTransitions}"
+                                           DragBackground="{StaticResource HighlightBrush}"
+                                           DragOpacity="100"
+                                           PlaceholderBackground="{StaticResource TorrentListTextBrush}"
+                                           ContentMargin="1"
+                                           PointerOverBackground="{StaticResource LightBackgroundHighlightBrush}"
+                                           PointerOverBackgroundMargin="1"
+                                           SelectedBackground="{StaticResource HighlightBrush}"
+                                           SelectedPointerOverBackground="{StaticResource LightHighlightBrush}"
+                                           SelectionCheckMarkVisualEnabled="False" />
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <!-- 74 -->
+            <DataTemplate x:Key="TorrentListItemTemplate">
+                <Grid Margin="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0"
+                       Width="70"
+                       Text="{Binding Percent}"
+                       Style="{StaticResource ListViewTextStyle}" />
+                    <Grid Grid.Column="1"
+                  Width="300">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="22" />
+                            <RowDefinition Height="20" />
+                            <RowDefinition Height="6" />
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="{Binding Name}"
+                           TextTrimming="CharacterEllipsis"
+                           Style="{StaticResource ListViewTextStyle}" />
+                        <Line Grid.Row="1"
+                      X1="0"
+                      Y1="0"
+                      X2="300"
+                      Y2="0"
+                      Opacity="1"
+                      Stroke="{StaticResource DarkBackgroundBrush}"
+                      StrokeThickness="20"
+                      VerticalAlignment="Bottom"
+                      Margin="0,0,0,0" />
+                        <Line Grid.Row="1"
+                      X1="0"
+                      Y1="0"
+                      X2="298"
+                      Y2="0"
+                      Opacity="1"
+                      Stroke="{StaticResource PageBackgroundBrush}"
+                      StrokeThickness="18"
+                      VerticalAlignment="Bottom"
+                      Margin="1,0,0,1" />
+                        <Line Grid.Row="1"
+                      X1="0"
+                      Y1="0"
+                      X2="{Binding Progress, Mode=OneWay, Converter={StaticResource PercentToProgressWidth}}"
+                      Y2="0"
+                      Opacity="1"
+                      Stroke="{Binding ProgressState, Mode=OneWay, Converter={StaticResource StateToColour}}"
+                      StrokeThickness="18"
+                      VerticalAlignment="Bottom"
+                      Margin="1,0,0,1" />
+                        <TextBlock HorizontalAlignment="Center"
+                           Margin="0"
+                           TextAlignment="Center"
+                           Grid.Row="1"
+                           Padding="0"
+                           Text="{Binding Status}"
+                           Style="{StaticResource ListViewTextStyle}" />
+                    </Grid>
+                    <TextBlock Grid.Column="2"
+                       Width="55"
+                       Text="{Binding Ratio}"
+                       Style="{StaticResource ListViewTextStyle}" />
+                    <TextBlock Grid.Column="3"
+                       Width="90"
+                       Text="{Binding DownloadSpeed}"
+                       Style="{StaticResource ListViewTextStyle}" />
+                </Grid>
+            </DataTemplate>
+
+            <!-- 61 -->
+            <Style x:Key="SearchClose" TargetType="HyperlinkButton">
+                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="BorderBrush" Value="{ThemeResource HyperlinkButtonBorderThemeBrush}"/>
+                <Setter Property="BorderThickness" Value="{ThemeResource HyperlinkButtonBorderThemeThickness}"/>
+                <Setter Property="Padding" Value="12,4,12,5"/>
+                <Setter Property="HorizontalAlignment" Value="Left"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
+                <Setter Property="FontWeight" Value="SemiBold"/>
+                <Setter Property="FontSize" Value="18"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="HyperlinkButton">
+                            <Grid>
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualState x:Name="Normal"/>
+                                        <VisualState x:Name="PointerOver">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentPresenter">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource HighlightBrush}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Pressed">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentPresenter">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource LightHighlightBrush}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Disabled">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentPresenter">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource HyperlinkDisabledThemeBrush}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                    <VisualStateGroup x:Name="FocusStates">
+                                        <VisualState x:Name="Focused">
+                                            <Storyboard>
+                                                <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="FocusVisualWhite"/>
+                                                <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="FocusVisualBlack"/>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Unfocused"/>
+                                        <VisualState x:Name="PointerFocused"/>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                                <Border x:Name="Border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Margin="3">
+                                    <ContentPresenter x:Name="ContentPresenter" AutomationProperties.AccessibilityView="Raw" ContentTemplate="{TemplateBinding ContentTemplate}" ContentTransitions="{TemplateBinding ContentTransitions}" Content="{TemplateBinding Content}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                </Border>
+                                <Rectangle x:Name="FocusVisualWhite" IsHitTestVisible="False" Opacity="0" StrokeDashOffset="1.5" StrokeEndLineCap="Square" Stroke="{ThemeResource FocusVisualWhiteStrokeThemeBrush}" StrokeDashArray="1,1"/>
+                                <Rectangle x:Name="FocusVisualBlack" IsHitTestVisible="False" Opacity="0" StrokeDashOffset="0.5" StrokeEndLineCap="Square" Stroke="{ThemeResource FocusVisualBlackStrokeThemeBrush}" StrokeDashArray="1,1"/>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <StackPanel Background="{StaticResource PageBackgroundBrush}">
+        <Grid Style="{StaticResource TorrentListHeaderStyle}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="Percent"
+                       Style="{StaticResource ListViewHeaderTextStyle}"
+                       Grid.Column="0"
+                       Width="70" />
+            <TextBlock Text="Progress"
+                       Style="{StaticResource ListViewHeaderTextStyle}"
+                       Grid.Column="1"
+                       Width="300" />
+            <TextBlock Text="Ratio"
+                       Style="{StaticResource ListViewHeaderTextStyle}"
+                       Grid.Column="2"
+                       Width="55" />
+            <TextBlock Text="Download"
+                       Style="{StaticResource ListViewHeaderTextStyle}"
+                       Grid.Column="3"
+                       Width="90" />
+        </Grid>
+        
+        <Grid Style="{StaticResource TorrentListSearchResultsStyle}"
+              Height="40"
+              Visibility="{Binding ListFilter.HasSearch, Mode=OneWay, Converter={StaticResource BooleanToVisibility}}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Style="{StaticResource ListViewHeaderTextStyle}"
+                       Text="Search Results for:" />
+            <TextBlock Style="{StaticResource ListViewHeaderTextStyle}"
+                       Text="{Binding ListFilter.SearchText}"
+                       Grid.Column="1" />
+            <HyperlinkButton Padding="0"
+                             Margin="0, -4, 10, 0"
+                             Content="x"
+                             Command="{Binding ListFilter.ClearSearch}"
+                             Grid.Column="2"
+                             HorizontalAlignment="Right"
+                             Style="{StaticResource SearchClose}" />
+        </Grid>
+
+        <!-- TODO: Having wte:ListViewExtensions.BindableSelection here throws a Catastrophic Error (Exception from HRESULT: 0x8000FFFF (E_UNEXPECTED)) -->
+        <ListView x:Name="List"
+                  ItemsSource="{Binding Torrents}"
+                  Grid.Row="2"
+                  Margin="0, 0, 0, 88"
+                  Background="{StaticResource TorrentListTextBrush}"
+                  SelectionMode="Extended"
+                  SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
+                  wte:ListViewExtensions.BindableSelection="{Binding SelectedItems, Mode=TwoWay}"
+                  ItemContainerStyle="{StaticResource TorrentListStyle}"
+                  ItemTemplate="{StaticResource TorrentListItemTemplate}" />
+    </StackPanel>
+</UserControl>

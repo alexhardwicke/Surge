@@ -1,0 +1,4 @@
+MainPackage=C:\Users\Alex\Desktop\Surge-prism-legacy\src\Surge\bin\Release\Surge_2.2.0.0_AnyCPU.appx
+SymbolPackage=C:\Users\Alex\Desktop\Surge-prism-legacy\src\Surge\AppPackages\Surge_2.2.0.0_Test\Surge_2.2.0.0_AnyCPU.appxsym
+ResourcePack=C:\Users\Alex\Desktop\Surge-prism-legacy\src\Surge\bin\Release\Surge_2.2.0.0_scale-140.appx
+ResourcePack=C:\Users\Alex\Desktop\Surge-prism-legacy\src\Surge\bin\Release\Surge_2.2.0.0_scale-180.appx

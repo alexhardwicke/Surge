@@ -1,0 +1,52 @@
+Export rules:
+Inkscape whirlpool.svg
+x0 and y0 -20, x1 and y1 +20
+
+Square 70x70 (SmallSquare)
+  scale-80: export 34x34, resize 56x56
+ scale-100: export 43x43, resize 70x70
+ scale-140: export 60x60, resize 98x98
+ scale-180: export 78x78, resize 126x126
+
+Square 150x150 (Square)
+  scale-80: export 50x50, resize 120x120
+ scale-100: export 63x63, resize 150x150
+ scale-140: export 88x88, resize 210x210
+ scale-180: export 114x114, resize 270x270
+
+Wide 310x150
+  scale-80: export 100x100, resize 248x120
+ scale-100: export 125x125, resize 310x150
+ scale-140: export 175x175, resize 434x210
+ scale-180: export 225x225, resize 558x270
+
+Square 310x310 (SquareLogo)
+  scale-80: export 100x100, resize 248x248
+ scale-100: export 125x125, resize 310x310
+ scale-140: export 175x175, resize 434x434
+ scale-180: export 225x225, resize 558x558
+
+Square 30x30
+  scale-80: export 24x24
+ scale-100: export 30x30
+ scale-140: export 42x42
+ scale-180: export 54x54
+ target-16: export 16x16
+ target-32: export 32x32
+ target-48: export 48x48
+target-256: export 256x256
+
+Store Logo
+ scale-100: export 50x50
+ scale-140: export 70x70
+ scale-180: export 90x90
+
+Splash Screen
+ scale-100: export 225x225, resize 620x300
+ scale-140: export 315x315, resize 868x420
+ scale-180: export 405x405, resize 1116x540
+
+sidebar
+ scale-100: export 30x30
+ scale-140: export 42x42
+ scale-180: export 54x54
