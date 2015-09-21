@@ -1,0 +1,24 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="using:Surge.Windows8.Converters">
+
+    <converters:BooleanToErrorColour x:Key="BooleanToErrorColour" />
+    <converters:BooleanToVisibility x:Key="BooleanToVisibility" />
+    <converters:CountOneToVisibility x:Key="CountOneToVisibility" />
+    <converters:CountToVisibility x:Key="CountToVisibility" />
+    <converters:FileTypeToIcon x:Key="FileTypeToIcon" />
+    <converters:FilterToIcon x:Key="FilterToIcon" />
+    <converters:FilterToRotation x:Key="FilterToRotation" />
+    <converters:InvertBoolean x:Key="InvertBoolean" />
+    <converters:InvertBooleanToVisibility x:Key="InvertBooleanToVisibility" />
+    <converters:InvertCountToVisibility x:Key="InvertCountToVisibility" />
+    <converters:ItemToTextWidth x:Key="ItemToTextWidth" />
+    <converters:ItemToWidth x:Key="ItemToWidth" />
+    <converters:PercentToProgressWidth x:Key="PercentToProgressWidth" />
+    <converters:ServerStatusToErrorString x:Key="ServerStatusToErrorString" />
+    <converters:ServerStatusToVisibility x:Key="ServerStatusToVisibility" />
+    <converters:ServerTypeToBoolean x:Key="ServerTypeToBoolean" />
+    <converters:StateToColour x:Key="StateToColour" />
+    <converters:URLToVisibility x:Key="URLToVisibility" />
+</ResourceDictionary>

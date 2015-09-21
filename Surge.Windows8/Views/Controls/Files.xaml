@@ -1,0 +1,139 @@
+﻿<UserControl
+    x:Class="Surge.Windows8.Views.Controls.Files"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    HorizontalAlignment="Right"
+    d:DesignHeight="600"
+    d:DesignWidth="500" >
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <Style x:Key="FileListStyle" TargetType="ListViewItem">
+                <Setter Property="Margin" Value="-1,0,-4,1" />
+                <Setter Property="Padding" Value="0" />
+                <Setter Property="BorderThickness" Value="0" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ListViewItem">
+                            <ListViewItemPresenter CheckBrush="Transparent"
+                                           CheckHintBrush="Transparent"
+                                           CheckSelectingBrush="Transparent"
+                                           FocusBorderBrush="Transparent"
+                                           PlaceholderBackground="Transparent"
+                                           SelectedForeground="Transparent"
+                                           SelectedPointerOverBorderBrush="Transparent"
+                                           ContentTransitions="{TemplateBinding ContentTransitions}"
+                                           HorizontalContentAlignment="Left"
+                                           Padding="{TemplateBinding Padding}"
+                                           ReorderHintOffset="{ThemeResource ListViewItemReorderHintThemeOffset}"
+                                           VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                           ContentMargin="1"
+                                           PointerOverBackground="Transparent"
+                                           PointerOverBackgroundMargin="1"
+                                           SelectedBackground="Transparent"
+                                           SelectedBorderThickness="0"
+                                           SelectedPointerOverBackground="Transparent"
+                                           SelectionCheckMarkVisualEnabled="False" />
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <DataTemplate x:Key="FileListItemTemplate">
+                <StackPanel HorizontalAlignment="Right"
+                                                Orientation="Horizontal">
+                    <StackPanel Orientation="Horizontal" >
+                        <Rectangle Opacity="0"
+                                                   Width="{Binding ParentDepth, Mode=OneWay, Converter={StaticResource ItemToWidth}}" />
+                        <CheckBox Margin="0,-1,0,0"
+                                                  VerticalAlignment="Top"
+                                                  IsChecked="{Binding IsWanted, Mode=TwoWay}"
+                                                  IsEnabled="{Binding IsIncomplete}" />
+                        <Image VerticalAlignment="Top"
+                                               Source="{Binding Type, Converter={StaticResource FileTypeToIcon}}"
+                                               Margin="3,0,5,0" />
+                        <StackPanel Width="{Binding ParentDepth, Mode=OneWay, Converter={StaticResource ItemToTextWidth}}">
+                            <TextBlock Text="{Binding Name}"
+                                                       TextTrimming="WordEllipsis"
+                                                       Style="{StaticResource PageFilesBodyTextStyle}"
+                                                       ToolTipService.ToolTip="{Binding Name}" />
+                            <TextBlock Text="{Binding Detail}"
+                                                       Margin="5, -23, 0, 0"
+                                                       Style="{StaticResource PageFilesDetailBodyTextStyle}"
+                                                       ToolTipService.ToolTip="{Binding Name}" />
+                        </StackPanel>
+                    </StackPanel>
+                    <ComboBox IsEnabled="{Binding IsIncomplete}"
+                                              VerticalAlignment="Top"
+                                              SelectedIndex="{Binding Priority, Mode=TwoWay}"
+                                              Margin="0, 0, 20, 0"
+                                              Height="36"
+                                              HorizontalAlignment="Right"
+                                              Width="105">
+                        <ComboBoxItem Content="Low Priority" />
+                        <ComboBoxItem Content="Medium Priority" />
+                        <ComboBoxItem Content="High Priority" />
+                    </ComboBox>
+                </StackPanel>
+            </DataTemplate>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Popup IsLightDismissEnabled="False"
+           IsOpen="{Binding IsFilePaneOpen}"
+           x:Name="Popup">
+        <Border x:Name="Flyout">
+            <Border.Transitions>
+                <TransitionCollection>
+                    <EntranceThemeTransition FromHorizontalOffset="120" />
+                </TransitionCollection>
+            </Border.Transitions>
+
+            <StackPanel Orientation="Vertical"
+                        DataContext="{Binding SelectedItem.TorrentFileViewModel}"
+                        Background="{StaticResource DarkBackgroundBrush}"
+                        Margin="0, 0, 0, 0">
+                <StackPanel Background="{StaticResource HighlightBrush}"
+                            Width="500"
+                            Orientation="Horizontal"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Height="80">
+                <TextBlock Text="Files"
+                           Style="{StaticResource PageSubheaderDetailsTextStyle}"
+                           VerticalAlignment="Top"
+                           FontSize="28"
+                           FontWeight="SemiLight"
+                           LineHeight="28"
+                           Height="28"
+                           Margin="50, 31, 0, 0" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel Background="{StaticResource DarkHighlightBrush}"
+                                Width="1" />
+                    <TextBlock Width="499"
+                               Visibility="{Binding Files.Count, Converter={StaticResource InvertCountToVisibility}}"
+                               Padding="50"
+                               Style="{StaticResource SubHeaderBase}"
+                               TextWrapping="WrapWholeWords">
+                        This torrent is a magnet link and is still resolving.
+                        Until it resolves, there are no files to show.
+                    </TextBlock>
+                    <ListView x:Name="ListView"
+                              Visibility="{Binding Files.Count, Converter={StaticResource CountToVisibility}}"
+                              ItemsSource="{Binding Files}"
+                              Padding="20, 20, 0, 20"
+                              SelectionMode="None"
+                              ItemContainerStyle="{StaticResource FileListStyle}"
+                              ItemTemplate="{StaticResource FileListItemTemplate}"
+                              IsSwipeEnabled="False"
+                              IsHoldingEnabled="False"
+                              IsTapEnabled="False" />
+                </StackPanel>
+            </StackPanel>
+        </Border>
+    </Popup>
+</UserControl>

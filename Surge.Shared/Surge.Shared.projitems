@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>dc132aff-d948-4654-a3c1-eb8fdf35a3ae</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Surge.Shared</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Common\Container.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\Enumerations.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\ErrorTracking\BoswellErrorTracker.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\ErrorTracking\ErrorTracker.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\ErrorTracking\StubErrorTracker.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\ExtensionMethods.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\Helpers.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\ListFilter\ICollectionViewEx.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\ListFilter\ListCollectionView.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\ListFilter\ListSortDirection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\ListFilter\SortDescription.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\PrismEvents.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\SettingsHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\TorrentFileData.cs" />
+  </ItemGroup>
+</Project>

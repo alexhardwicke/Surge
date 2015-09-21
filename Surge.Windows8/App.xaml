@@ -1,0 +1,19 @@
+﻿<prism:MvvmAppBase
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:prism="using:Microsoft.Practices.Prism.Mvvm"
+    x:Class="Surge.Windows8.App">
+
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Converters/Converters.xaml" />
+
+                <ResourceDictionary Source="Styles/Brushes.xaml" />
+                <ResourceDictionary Source="Styles/OtherStyles.xaml" />
+                <ResourceDictionary Source="Styles/TemplateStyles.xaml" />
+                <ResourceDictionary Source="Styles/TextStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+</prism:MvvmAppBase>

@@ -1,0 +1,295 @@
+﻿<SettingsFlyout
+    x:Class="Surge.Windows8.Views.Controls.About"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{StaticResource DarkBackgroundBrush}"
+    HeaderBackground="{StaticResource HighlightBrush}"
+    Title="About"
+    Width="320"
+    Padding="0"
+    d:DesignHeight="600"
+    d:DesignWidth="320">
+
+    <!-- This StackPanel acts as a root panel for vertical layout of the content sections -->
+    <ScrollViewer x:Name="ScrollViewer"
+                  Height="{Binding ElementName=AboutFlyout, Path=Height}">
+        <StackPanel VerticalAlignment="Top"
+                    Margin="15, 15, 15, 15"
+                    HorizontalAlignment="Left"
+                    Width="310">
+            <!-- Grab focus so the hyperlinks don't -->
+            <Button Height="0" Width="0" />
+            <TextBlock Text="Contact Details"
+                   FontWeight="Bold"
+                   TextWrapping="Wrap"
+                   FontSize="22"
+                   Margin="10, 12, 15, 5"
+                   TextAlignment="Left"
+                   LineHeight="22"
+                   HorizontalAlignment="Left"
+                   Style="{StaticResource PageSubheaderDetailsTextStyle}" />
+
+            <StackPanel Orientation="Horizontal"
+                    Margin="10, 10, 15, 20">
+                <StackPanel Orientation="Horizontal">
+                    <SymbolIcon Foreground="White"
+                            Height="22"
+                            Symbol="Globe"/>
+                    <TextBlock TextWrapping="Wrap"
+                           FontSize="18"
+                           Margin="10, -3, 0, 5"
+                           TextAlignment="Left"
+                           LineHeight="18"
+                           HorizontalAlignment="Left"
+                           Style="{StaticResource PageSubheaderDetailsTextStyle}">
+                    <Hyperlink NavigateUri="http://www.alexhardwicke.com"
+                               Foreground="White">www.alexhardwicke.com</Hyperlink>
+                    </TextBlock>
+                </StackPanel>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal"
+                    Margin="10, 0, 15, 20">
+                <StackPanel Orientation="Horizontal">
+                    <SymbolIcon Foreground="White"
+                            Symbol="Mail"
+                            Height="22"/>
+                    <TextBlock TextWrapping="Wrap"
+                           FontSize="18"
+                           Margin="10, -5, 0, 5"
+                           TextAlignment="Left"
+                           LineHeight="18"
+                           HorizontalAlignment="Left"
+                           Style="{StaticResource PageSubheaderDetailsTextStyle}">
+                    <Hyperlink NavigateUri="mailto:alex.hardwicke@outlook.com"
+                               Foreground="White">alex.hardwicke@outlook.com</Hyperlink>
+                    </TextBlock>
+                </StackPanel>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal"
+                    Margin="10, 0, 15, 20">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/Assets/twitter.png" />
+                    <TextBlock TextWrapping="Wrap"
+                           Margin="13, -5, 0, 5"
+                           FontSize="18"
+                           TextAlignment="Left"
+                           LineHeight="18"
+                           HorizontalAlignment="Left"
+                           Style="{StaticResource PageSubheaderDetailsTextStyle}">
+                    <Hyperlink NavigateUri="http://www.twitter.com/Lokar"
+                               Foreground="White">@Lokar</Hyperlink>
+                    </TextBlock>
+                </StackPanel>
+            </StackPanel>
+            
+                        <TextBlock Text="Keyboard Shortcuts"
+                   FontWeight="Bold"
+                   TextWrapping="Wrap"
+                   FontSize="22"
+                   Margin="10, 12, 15, 5"
+                   TextAlignment="Left"
+                   LineHeight="22"
+                   HorizontalAlignment="Left"
+                   Style="{StaticResource PageSubheaderDetailsTextStyle}" />
+
+            <TextBlock TextWrapping="Wrap"
+                       FontSize="16"
+                       Width="260"
+                       Margin="10, 0, 15, 20"
+                       TextAlignment="Left"
+                       LineHeight="22"
+                       HorizontalAlignment="Left"
+                       Style="{StaticResource PageSubheaderDetailsTextStyle}">
+                <TextBlock.Inlines>
+                    <Bold>F</Bold> Force Start
+                    <LineBreak />
+                    <Bold>P</Bold> Pause
+                    <LineBreak />
+                    <Bold>S</Bold> Start
+                    <LineBreak />
+                    <Bold>V</Bold> Verify
+                    <LineBreak />
+                    <Bold>Del</Bold> Delete
+                    <LineBreak />
+                    <Bold>Enter</Bold> Toggle Files Pane
+                    <LineBreak />
+                    <Bold>Q</Bold> Focus Search
+                </TextBlock.Inlines>
+            </TextBlock>
+
+
+            <!--<TextBlock Text="Help develop Surge"
+                   FontWeight="Bold"
+                   TextWrapping="Wrap"
+                   FontSize="22"
+                   Margin="10, 12, 15, 5"
+                   TextAlignment="Left"
+                   LineHeight="22"
+                   HorizontalAlignment="Left"
+                   Style="{StaticResource PageSubheaderDetailsTextStyle}" />
+
+            <TextBlock Text="Surge is now open source! If you have good skills with XAML, C# or F#, you're welcome to help development."
+                   TextWrapping="Wrap"
+                   FontSize="16"
+                   Width="260"
+                   Margin="10, 0, 15, 20"
+                   TextAlignment="Left"
+                   LineHeight="22"
+                   HorizontalAlignment="Left"
+                   Style="{StaticResource PageSubheaderDetailsTextStyle}" />
+
+            <StackPanel Orientation="Horizontal"
+                    Margin="10, 0, 15, 20">
+                <StackPanel Orientation="Horizontal">
+                    <SymbolIcon Foreground="White"
+                            Height="22"
+                            Symbol="Globe"/>
+                    <TextBlock TextWrapping="Wrap"
+                           FontSize="18"
+                           Margin="10, -3, 0, 5"
+                           TextAlignment="Left"
+                           LineHeight="18"
+                           HorizontalAlignment="Left"
+                           Style="{StaticResource PageSubheaderDetailsTextStyle}">
+                    <Hyperlink NavigateUri="http://github.com/alexhardwicke/surge"
+                               Foreground="White">github.com/alexhardwicke/surge</Hyperlink>
+                    </TextBlock>
+                </StackPanel>
+            </StackPanel>-->
+
+            <TextBlock Text="Third Party"
+                   FontWeight="Bold"
+                   TextWrapping="Wrap"
+                   FontSize="22"
+                   Margin="10, 12, 15, 5"
+                   TextAlignment="Left"
+                   LineHeight="22"
+                   HorizontalAlignment="Left"
+                   Style="{StaticResource PageSubheaderDetailsTextStyle}" />
+
+            <TextBlock Text="Surge uses the following libraries."
+                   TextWrapping="Wrap"
+                   FontSize="16"
+                   Width="260"
+                   Margin="10, 0, 15, 20"
+                   TextAlignment="Left"
+                   LineHeight="22"
+                   HorizontalAlignment="Left"
+                   Style="{StaticResource PageSubheaderDetailsTextStyle}" />
+
+            <StackPanel Margin="10, 0, 15, 20">
+                <StackPanel Orientation="Horizontal">
+                    <SymbolIcon Foreground="White"
+                            Height="22"
+                            Symbol="Globe"/>
+                    <TextBlock TextWrapping="Wrap"
+                        FontSize="18"
+                        Margin="10, -3, 0, 5"
+                        TextAlignment="Left"
+                        LineHeight="18"
+                        HorizontalAlignment="Left"
+                        Style="{StaticResource PageSubheaderDetailsTextStyle}">
+                    <Hyperlink NavigateUri="http://james.newtonking.com/json"
+                                Foreground="White">Json.NET</Hyperlink>
+                    </TextBlock>
+                </StackPanel>
+            </StackPanel>
+
+            <StackPanel Margin="10, 0, 15, 20">
+                <StackPanel Orientation="Horizontal">
+                    <SymbolIcon Foreground="White"
+                            Height="22"
+                            Symbol="Globe"/>
+                    <TextBlock TextWrapping="Wrap"
+                        FontSize="18"
+                        Margin="10, -3, 0, 5"
+                        TextAlignment="Left"
+                        LineHeight="18"
+                        HorizontalAlignment="Left"
+                        Style="{StaticResource PageSubheaderDetailsTextStyle}">
+                    <Hyperlink NavigateUri="http://www.codeproject.com/Articles/527686/A-WinRT-CollectionView-class-with-Filtering-and-So"
+                                Foreground="White">ListFilter</Hyperlink>
+                    </TextBlock>
+                </StackPanel>
+            </StackPanel>
+
+            <StackPanel Margin="10, 0, 15, 20">
+                <StackPanel Orientation="Horizontal">
+                    <SymbolIcon Foreground="White"
+                            Height="22"
+                            Symbol="Globe"/>
+                    <TextBlock TextWrapping="Wrap"
+                        FontSize="18"
+                        Margin="10, -3, 0, 5"
+                        TextAlignment="Left"
+                        LineHeight="18"
+                        HorizontalAlignment="Left"
+                        Style="{StaticResource PageSubheaderDetailsTextStyle}">
+                    <Hyperlink NavigateUri="https://msdn.microsoft.com/en-us/library/ff648465.aspx"
+                                Foreground="White">Prism</Hyperlink>
+                    </TextBlock>
+                </StackPanel>
+            </StackPanel>
+
+            <StackPanel Margin="10, 0, 15, 20">
+                <StackPanel Orientation="Horizontal">
+                    <SymbolIcon Foreground="White"
+                            Height="22"
+                            Symbol="Globe"/>
+                    <TextBlock TextWrapping="Wrap"
+                        FontSize="18"
+                        Margin="10, -3, 0, 5"
+                        TextAlignment="Left"
+                        LineHeight="18"
+                        HorizontalAlignment="Left"
+                        Style="{StaticResource PageSubheaderDetailsTextStyle}">
+                    <Hyperlink NavigateUri="http://unity.codeplex.com/"
+                                Foreground="White">Splat</Hyperlink>
+                    </TextBlock>
+                </StackPanel>
+            </StackPanel>
+
+            <StackPanel Margin="10, 0, 15, 20">
+                <StackPanel Orientation="Horizontal">
+                    <SymbolIcon Foreground="White"
+                            Height="22"
+                            Symbol="Globe"/>
+                    <TextBlock TextWrapping="Wrap"
+                        FontSize="18"
+                        Margin="10, -3, 0, 5"
+                        TextAlignment="Left"
+                        LineHeight="18"
+                        HorizontalAlignment="Left"
+                        Style="{StaticResource PageSubheaderDetailsTextStyle}">
+                    <Hyperlink NavigateUri="http://james.newtonking.com/json"
+                                Foreground="White">Unity</Hyperlink>
+                    </TextBlock>
+                </StackPanel>
+            </StackPanel>
+
+            <StackPanel Margin="10, 0, 15, 20">
+                <StackPanel Orientation="Horizontal">
+                    <SymbolIcon Foreground="White"
+                            Height="22"
+                            Symbol="Globe"/>
+                    <TextBlock TextWrapping="Wrap"
+                        FontSize="18"
+                        Margin="10, -3, 0, 5"
+                        TextAlignment="Left"
+                        LineHeight="18"
+                        HorizontalAlignment="Left"
+                        Style="{StaticResource PageSubheaderDetailsTextStyle}">
+                    <Hyperlink NavigateUri="http://winrtxamltoolkit.codeplex.com/"
+                                Foreground="White">WinRT XAML Toolkit</Hyperlink>
+                    </TextBlock>
+                </StackPanel>
+            </StackPanel>
+
+        </StackPanel>
+    </ScrollViewer>
+</SettingsFlyout>

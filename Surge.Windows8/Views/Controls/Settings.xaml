@@ -1,0 +1,40 @@
+﻿<SettingsFlyout
+        x:Class="Surge.Windows8.Views.Controls.Settings"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Background="{StaticResource DarkBackgroundBrush}"
+        HeaderBackground="{StaticResource HighlightBrush}"
+        Padding="20, 10, 5, 0"
+        Title="Settings"
+        Width="320"
+        d:DesignWidth="320">
+
+    <!-- This StackPanel acts as a root panel for vertical layout of the content sections -->
+    <StackPanel VerticalAlignment="Top"
+                HorizontalAlignment="Left" >
+
+        <ToggleSwitch IsOn="{Binding ShowForceStart, Mode=TwoWay}"
+                      Foreground="White"
+                      OffContent="Hiding force start"
+                      OnContent="Showing force start"
+                      HorizontalAlignment="Right"
+                      HorizontalContentAlignment="Right" />
+
+        <ToggleSwitch IsOn="{Binding OrderByQueue, Mode=TwoWay}"
+                      Foreground="White"
+                      OffContent="Ordering alphabetically"
+                      OnContent="Ordering by queue position"
+                      HorizontalAlignment="Right"
+                      HorizontalContentAlignment="Right" />
+
+        <ToggleSwitch IsOn="{Binding AlwaysAskDownloadLocation, Mode=TwoWay}"
+                      Foreground="White"
+                      OffContent="Default download location"
+                      OnContent="Asking for download location"
+                      HorizontalAlignment="Right"
+                      HorizontalContentAlignment="Right" />
+    </StackPanel>
+</SettingsFlyout>
