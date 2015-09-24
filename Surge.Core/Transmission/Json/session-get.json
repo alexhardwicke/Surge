@@ -1,4 +1,82 @@
-{ "arguments" : { "alt-speed-down" : 21474836480,
+[
+
+  {
+    "arguments": {
+      "alt-speed-down": 21474836480,
+      "alt-speed-enabled": false,
+      "alt-speed-time-begin": 540,
+      "alt-speed-time-day": 127,
+      "alt-speed-time-enabled": false,
+      "alt-speed-time-end": 1020,
+      "alt-speed-up": 21474836480,
+      "blocklist-enabled": false,
+      "blocklist-size": 0,
+      "blocklist-url": "http://www.example.com/blocklist",
+      "cache-size-mb": 4,
+      "config-dir": "C:\\Users\\Example\\AppData\\Roaming/transmission",
+      "dht-enabled": true,
+      "download-dir": "C:\\Transmission\\Download",
+      "download-dir-free-space": 21474836480,
+      "download-queue-enabled": true,
+      "download-queue-size": 5,
+      "encryption": "preferred",
+      "idle-seeding-limit": 30,
+      "idle-seeding-limit-enabled": true,
+      "incomplete-dir": "C:\\Transmission\\Incomplete",
+      "incomplete-dir-enabled": true,
+      "lpd-enabled": false,
+      "peer-limit-global": 200,
+      "peer-limit-per-torrent": 50,
+      "peer-port": 51413,
+      "peer-port-random-on-start": false,
+      "pex-enabled": true,
+      "port-forwarding-enabled": true,
+      "queue-stalled-enabled": true,
+      "queue-stalled-minutes": 30,
+      "rename-partial-files": true,
+      "rpc-version": 15,
+      "rpc-version-minimum": 1,
+      "script-torrent-done-enabled": false,
+      "script-torrent-done-filename": "",
+      "seed-queue-enabled": false,
+      "seed-queue-size": 10,
+      "seedRatioLimit": 2,
+      "seedRatioLimited": true,
+      "speed-limit-down": 21474836480,
+      "speed-limit-down-enabled": false,
+      "speed-limit-up": 21474836480,
+      "speed-limit-up-enabled": false,
+      "start-added-torrents": true,
+      "trash-original-torrent-files": false,
+      "units": {
+        "memory-bytes": 1024,
+        "memory-units": [
+          "KiB",
+          "MiB",
+          "GiB",
+          "TiB"
+        ],
+        "size-bytes": 1024,
+        "size-units": [
+          "KiB",
+          "MiB",
+          "GiB",
+          "TiB"
+        ],
+        "speed-bytes": 1024,
+        "speed-units": [
+          "KiB/s",
+          "MiB/s",
+          "GiB/s",
+          "TiB/s"
+        ]
+      },
+      "utp-enabled": true,
+      "version": "2.84 (14386)"
+    },
+    "result": "success"
+  },
+  { "arguments" : { "alt-speed-down" : 21474836480,
       "alt-speed-enabled" : false,
       "alt-speed-time-begin" : 540,
       "alt-speed-time-day" : 127,
@@ -12,10 +90,10 @@
       "config-dir" : "C:\\Users\\Example\\AppData\\Roaming/transmission",
       "dht-enabled" : true,
       "download-dir" : "C:\\Transmission\\Download",
-      "download-dir-free-space" : 21474836480,
       "download-queue-enabled" : true,
       "download-queue-size" : 5,
       "encryption" : "preferred",
+      "free-space" : 21474836480,
       "idle-seeding-limit" : 30,
       "idle-seeding-limit-enabled" : true,
       "incomplete-dir" : "C:\\Transmission\\Incomplete",
@@ -68,3 +146,4 @@
     },
   "result" : "success"
 }
+]

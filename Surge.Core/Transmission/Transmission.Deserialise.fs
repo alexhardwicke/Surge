@@ -25,13 +25,14 @@ module internal Deserialise =
     let DeserializeGet (get : string) : TransmissionServerGet =
         let get' = (SessionGet.Parse get)
         let args = get'.Arguments
-        let freeSpace = "download-dir-free-space" |> get'.JsonValue.TryGetProperty
         { ServerVersion = args.RpcVersion
           DefaultDownloadLocation = args.DownloadDir
           SpaceRemaining =
-            match freeSpace with
-            | None -> (int64)0
-            | Some(value) -> value.AsInteger64() }
+            match args.FreeSpace with
+            | Some(value) -> value
+            | None -> match args.DownloadDirFreeSpace with
+                      | Some(value) -> value
+                      | None -> (int64)0 }
 
     let GenerateServer (stats : TransmissionServerStats) (get : TransmissionServerGet) =
         { DownloadSpeed = stats.DownloadSpeed
