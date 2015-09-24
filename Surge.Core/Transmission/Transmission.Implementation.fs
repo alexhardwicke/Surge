@@ -67,12 +67,16 @@ module internal Implementation =
 
             (newTorrents, updatedTorrents, magnetTorrents, deletedTorrents)
 
-        let getUpdate data processResult = async {
-            return! torrentClient.SendWithResultAsync processResult onError data }
+        let getFromServer data processResult = async {
+            let! result = torrentClient.SendWithResultAsync processResult data
+            match result with
+            | Error(value) -> do! onError value
+            | _ -> ()
+            return result  }
 
-        let getTorrentUpdate = getUpdate TorrentDetails
-        let getStats = getUpdate SessionStats 
-        let getGet = getUpdate SessionGet
+        let getTorrentUpdate = getFromServer TorrentDetails
+        let getStats = getFromServer SessionStats 
+        let getGet = getFromServer SessionGet
 
         let getUpdate torrentData = async {
             try
@@ -116,7 +120,7 @@ module internal Implementation =
                 do! ChangeLocation items location moveFiles |> torrentClient.SendNoResultAsync } |> Async.Start
             
             member this.CheckConnectionAsync() = async {
-                let! result = torrentClient.SendWithResultAsync (fun x -> x) (fun x -> async { () } ) SessionStats
+                let! result = torrentClient.SendWithResultAsync (fun x -> x) SessionStats
                 return ServerState.FromResponse result }
             
             member this.AddFile file location = async {

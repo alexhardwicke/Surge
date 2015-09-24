@@ -11,7 +11,7 @@ type TorrentNetworkClient internal (server : Server, uriSuffix, csrfHeader, onEx
     let client = new HttpClient(handler)
     let mutable csrfToken = ""
 
-    let rec sendToClientAsync (processResult : string -> 'a) onError data = async {
+    let rec sendToClientAsync (processResult : string -> 'a) data = async {
         let uri = server.URI.ToString() + uriSuffix
         try
             use content = new StringContent(data)
@@ -20,21 +20,18 @@ type TorrentNetworkClient internal (server : Server, uriSuffix, csrfHeader, onEx
             use! response = Async.AwaitTask <| client.PostAsync(uri, content)
             if response.StatusCode = HttpStatusCode.Conflict then
                 csrfToken <- response.Headers.GetValues(csrfHeader).FirstOrDefault()
-                return! sendToClientAsync processResult onError data
+                return! sendToClientAsync processResult data
             else
                 match response.StatusCode with
                 | HttpStatusCode.OK ->
                     let! result = Async.AwaitTask <| response.Content.ReadAsStringAsync()
                     return Success (processResult result)
                 | HttpStatusCode.Unauthorized ->
-                    do! onError Credential
                     return Error Credential
                 | HttpStatusCode.BadRequest ->
                     do! onException (Exception("Bad Request"))
-                    do! onError BadRequest
                     return Error BadRequest
                 | HttpStatusCode.NotFound ->
-                    do! onError NotFound
                     return Error NotFound
                 | code when code.ToString() = "520" ->
                     // Error 520: Generic catch-all used by Microsoft amongst others.
@@ -48,11 +45,9 @@ type TorrentNetworkClient internal (server : Server, uriSuffix, csrfHeader, onEx
                 
         with
             | :? HttpRequestException as ex ->
-                do! onError Connection
                 return Error Connection
             | :? AggregateException as ex -> match ex.InnerException with
                                                 | :? HttpRequestException ->
-                                                    do! onError Connection
                                                     return Error Connection
                                                 | _ ->
                                                     do! onException ex
@@ -61,14 +56,14 @@ type TorrentNetworkClient internal (server : Server, uriSuffix, csrfHeader, onEx
                 do! onException ex
                 return Error Other }
 
-    let sendAsync processResult onError json = async {
-        return! sendToClientAsync processResult onError json }
+    let sendAsync processResult json = async {
+        return! sendToClientAsync processResult json }
         
-    member internal this.SendWithResultAsync processResult onError json = async {
-        return! sendAsync processResult onError json }
+    member internal this.SendWithResultAsync processResult json = async {
+        return! sendAsync processResult json }
         
     member internal this.SendNoResultAsync json = async {
-        do! sendAsync ignore (fun x -> async { () } ) json |> Async.Ignore }
+        do! sendAsync ignore json |> Async.Ignore }
 
     interface IDisposable with
         member this.Dispose(): unit =
