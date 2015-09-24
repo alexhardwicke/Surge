@@ -28,11 +28,10 @@ module internal Deserialise =
         { ServerVersion = args.RpcVersion
           DefaultDownloadLocation = args.DownloadDir
           SpaceRemaining =
-            match args.FreeSpace with
-            | Some(value) -> value
-            | None -> match args.DownloadDirFreeSpace with
-                      | Some(value) -> value
-                      | None -> (int64)0 }
+            match (args.FreeSpace, args.DownloadDirFreeSpace) with
+            | (Some(value), None) | (None, Some(value)) -> value
+            | _ -> (int64)0
+        }
 
     let GenerateServer (stats : TransmissionServerStats) (get : TransmissionServerGet) =
         { DownloadSpeed = stats.DownloadSpeed
