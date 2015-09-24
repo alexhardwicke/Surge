@@ -64,15 +64,11 @@ module internal Deserialise =
                 Array.zip jsonTorrent.Files jsonTorrent.FileStats
                 |>  deserialiseFiles jsonTorrent.Id generateFiles
 
-            // Ugly to try/catch here, but queueposition is for some reason not always
-            // included. If we don't have it, just use the torrent's id (so that the list is sorted)
-            // Could use jsonvalue and so on, but frankly that's a lot of work for something
-            // that should be fixed by making sure queuePosition is supported server-side instead.
+            // Should require queuePosition in the future
             let queuePosition =
-                try
-                    jsonTorrent.QueuePosition
-                with
-                | ex -> jsonTorrent.Id
+                match jsonTorrent.QueuePosition with
+                | Some(value) -> value
+                | None -> jsonTorrent.Id
 
             { Files = files
               ID = jsonTorrent.Id

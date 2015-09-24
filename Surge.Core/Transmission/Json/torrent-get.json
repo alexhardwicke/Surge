@@ -1,37 +1,91 @@
-{ "arguments" : { "torrents" : [ { "activityDate" : 1427260302,
-            "comment" : "Ubuntu CD releases.ubuntu.com",
-            "desiredAvailable" : 21474836480,
-            "downloadedEver": 1219257691,
-            "downloadDir": "/usr/somewhere",
-            "errorString" : "",
-            "eta" : -1,
-            "fileStats" : [ { "bytesCompleted" : 21474836480,
-                  "priority" : 0,
-                  "wanted" : true
-                } ],
-            "files" : [ { "bytesCompleted" : 21474836480,
-                  "length" : 21474836480,
-                  "name" : "ubuntu-14.10-desktop-amd64.iso"
-                } ],
-            "hashString" : "b415c913643e5ff49fe37d304bbb5e6e11ad5101",
-            "haveUnchecked" : 21474836480,
-            "haveValid" : 21474836480,
-            "id" : 1,
-            "isFinished" : false,
-            "leftUntilDone" : 21474836480,
-            "metadataPercentComplete" : 0.7,
-            "name" : "ubuntu-14.10-desktop-amd64.iso",
-            "percentDone" : 0.8,
-            "queuePosition" : 0,
-            "rateDownload" : 21474836480,
-            "rateUpload" : 21474836480,
-            "recheckProgress" : 0.54,
-            "secondsDownloading" : 185,
-            "secondsSeeding" : 34041,
-            "sizeWhenDone" : 21474836480,
-            "status" : 0,
-            "uploadRatio" : 1.6476,
-            "uploadedEver" : 21474836480
-          } ] },
-  "result" : "success"
+{
+  "arguments": {
+    "torrents": [
+      {
+        "activityDate": 1427260302,
+        "comment": "Ubuntu CD releases.ubuntu.com",
+        "desiredAvailable": 21474836480,
+        "downloadedEver": 1219257691,
+        "downloadDir": "/usr/somewhere",
+        "errorString": "",
+        "eta": -1,
+        "fileStats": [
+          {
+            "bytesCompleted": 21474836480,
+            "priority": 0,
+            "wanted": true
+          }
+        ],
+        "files": [
+          {
+            "bytesCompleted": 21474836480,
+            "length": 21474836480,
+            "name": "ubuntu-14.10-desktop-amd64.iso"
+          }
+        ],
+        "hashString": "b415c913643e5ff49fe37d304bbb5e6e11ad5101",
+        "haveUnchecked": 21474836480,
+        "haveValid": 21474836480,
+        "id": 1,
+        "isFinished": false,
+        "leftUntilDone": 21474836480,
+        "metadataPercentComplete": 0.7,
+        "name": "ubuntu-14.10-desktop-amd64.iso",
+        "percentDone": 0.8,
+        "queuePosition": 0,
+        "rateDownload": 21474836480,
+        "rateUpload": 21474836480,
+        "recheckProgress": 0.54,
+        "secondsDownloading": 185,
+        "secondsSeeding": 34041,
+        "sizeWhenDone": 21474836480,
+        "status": 0,
+        "uploadRatio": 1.6476,
+        "uploadedEver": 21474836480
+      },
+      {
+        "activityDate": 1427260302,
+        "comment": "Ubuntu CD releases.ubuntu.com",
+        "desiredAvailable": 21474836480,
+        "downloadedEver": 1219257691,
+        "downloadDir": "/usr/somewhere",
+        "errorString": "",
+        "eta": -1,
+        "fileStats": [
+          {
+            "bytesCompleted": 21474836480,
+            "priority": 0,
+            "wanted": true
+          }
+        ],
+        "files": [
+          {
+            "bytesCompleted": 21474836480,
+            "length": 21474836480,
+            "name": "ubuntu-14.10-desktop-amd64.iso"
+          }
+        ],
+        "hashString": "b415c913643e5ff49fe37d304bbb5e6e11ad5101",
+        "haveUnchecked": 21474836480,
+        "haveValid": 21474836480,
+        "id": 1,
+        "isFinished": false,
+        "leftUntilDone": 21474836480,
+        "metadataPercentComplete": 0.7,
+        "name": "ubuntu-14.10-desktop-amd64.iso",
+        "percentDone": 0.8,
+        "rateDownload": 21474836480,
+        "rateUpload": 21474836480,
+        "recheckProgress": 0.54,
+        "secondsDownloading": 185,
+        "secondsSeeding": 34041,
+        "sizeWhenDone": 21474836480,
+        "status": 0,
+        "uploadRatio": 1.6476,
+        "uploadedEver": 21474836480
+      }
+
+    ]
+  },
+  "result": "success"
 }
