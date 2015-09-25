@@ -11,7 +11,7 @@ type ServerStats = { DownloadSpeed : int64
                      SpeedUnits : ServerUnits }
 
 and ServerUnits = { Bytes : int
-                    Units : string seq }
+                    Units : string [] }
 
 type StateType = ForceStart | Start | Stop | Verify
 
