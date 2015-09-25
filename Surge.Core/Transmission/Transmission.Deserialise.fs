@@ -1,11 +1,16 @@
 ﻿namespace Surge.Core.Transmission
 
+open Surge.Core.Models
+
 type TransmissionServerStats = { DownloadSpeed : int64
                                  UploadSpeed : int64 }
 
 type TransmissionServerGet = { ServerVersion : int
                                DefaultDownloadLocation : string
-                               SpaceRemaining : int64 }
+                               SpaceRemaining : int64
+                               MemoryUnits : ServerUnits
+                               SizeUnits : ServerUnits
+                               SpeedUnits : ServerUnits }
 
 module internal Deserialise =
     open FSharp.Data.JsonExtensions
@@ -31,6 +36,15 @@ module internal Deserialise =
             match (args.FreeSpace, args.DownloadDirFreeSpace) with
             | (Some(value), None) | (None, Some(value)) -> value
             | _ -> (int64)0
+          MemoryUnits =
+            { Bytes = args.Units.MemoryBytes
+              Units = args.Units.MemoryUnits }
+          SizeUnits =
+            { Bytes = args.Units.SizeBytes
+              Units = args.Units.SizeUnits }
+          SpeedUnits =
+            { Bytes = args.Units.SpeedBytes
+              Units = args.Units.SpeedUnits }
         }
 
     let GenerateServer (stats : TransmissionServerStats) (get : TransmissionServerGet) =
@@ -38,7 +52,11 @@ module internal Deserialise =
           UploadSpeed = stats.UploadSpeed
           ServerVersion = get.ServerVersion
           DefaultDownloadLocation = get.DefaultDownloadLocation
-          SpaceRemaining = get.SpaceRemaining }
+          SpaceRemaining = get.SpaceRemaining
+          MemoryUnits = get.MemoryUnits
+          SizeUnits = get.SizeUnits
+          SpeedUnits = get.SpeedUnits
+        }
 
     let TorrentListToDictionary seq =
         let dictionary = Dictionary<int, Torrent>()

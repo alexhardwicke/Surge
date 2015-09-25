@@ -5,7 +5,13 @@ type ServerStats = { DownloadSpeed : int64
                      UploadSpeed : int64
                      ServerVersion : int
                      DefaultDownloadLocation : string
-                     SpaceRemaining : int64 }
+                     SpaceRemaining : int64
+                     MemoryUnits : ServerUnits
+                     SizeUnits : ServerUnits
+                     SpeedUnits : ServerUnits }
+
+and ServerUnits = { Bytes : int
+                    Units : string seq }
 
 type StateType = ForceStart | Start | Stop | Verify
 
