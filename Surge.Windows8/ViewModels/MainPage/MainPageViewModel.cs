@@ -254,14 +254,14 @@ namespace Surge.Windows8.ViewModels.MainPage
                 }
                 else if (updateData.UpdatedTorrents.ContainsKey(item.Id))
                 {
-                    item.Update(updateData.UpdatedTorrents[item.Id]);
+                    item.Update(updateData.UpdatedTorrents[item.Id], updateData.ServerStats.SpeedUnits, updateData.ServerStats.SizeUnits);
                     continue;
                 }
             }
 
             foreach (var torrent in updateData.NewTorrents)
             {
-                var torrentVM = new TorrentViewModel(torrent, _eventAggregator, _errorTracker);
+                var torrentVM = new TorrentViewModel(torrent, _eventAggregator, _errorTracker, updateData.ServerStats.SpeedUnits, updateData.ServerStats.SizeUnits);
                 backingTorrents.Add(torrentVM);
             }
 

@@ -1,8 +1,10 @@
 ﻿// Copyright (c) Alex Hardwicke. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using Surge.Core.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -77,14 +79,14 @@ namespace Surge.Shared.Common
             return string.Join(" and ", result);
         }
 
-        public static string ToSizeString(this long data)
+        public static string ToSizeString(this long data, ServerUnits units)
         {
-            return ((double)data).ToBytes();
+            return ((double)data).ToBytes(units);
         }
 
-        public static string ToSpeedString(this long data)
+        public static string ToSpeedString(this long data, ServerUnits units)
         {
-            return $"{((double)data).ToBytes()}/s";
+            return $"{((double)data).ToBytes(units)}/s";
         }
 
         public static string ToRatioString(this double data)
@@ -114,24 +116,22 @@ namespace Surge.Shared.Common
             return dataString.Substring(0, preDecimalLength);
         }
 
-        private static string ToBytes(this double data)
+        private static string ToBytes(this double data, ServerUnits units)
         {
-            string[] suffixes = { "B", "KB", "MB", "GB", "TB", "PB" };
-
             var doubleVal = data;
             int pos;
 
-            for (pos = 0; pos < suffixes.Length && doubleVal >= 1000; ++pos)
+            for (pos = 0; pos < units.Units.Length && doubleVal >= units.Bytes; ++pos)
             {
-                doubleVal /= 1000;
+                doubleVal /= units.Bytes;
             }
 
-            return String.Format("{0:0.0} {1}", doubleVal.TrimDecimal(), suffixes[pos]);
+            return String.Format("{0:0.0} {1}", doubleVal.TrimDecimal(), units.Units[pos]);
         }
 
-        public static string ToFileDetailsString(this long numerator, long denominator)
+        public static string ToFileDetailsString(this long numerator, long denominator, ServerUnits units)
         {
-            return $"{numerator.ToSizeString()}/{denominator.ToSizeString()} ({numerator.ToPercent(denominator)})";
+            return $"{numerator.ToSizeString(units)}/{denominator.ToSizeString(units)} ({numerator.ToPercent(denominator)})";
         }
 
         internal static string EscapeSlashes(this string value)
