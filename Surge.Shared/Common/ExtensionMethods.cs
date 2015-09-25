@@ -84,6 +84,11 @@ namespace Surge.Shared.Common
             return ((double)data).ToBytes(units);
         }
 
+        public static string ToSizeString(this long data, ServerUnits units, int unitPos)
+        {
+            return ((double)data).ToBytes(units, unitPos);
+        }
+
         public static string ToRatioString(this double data)
         {
             return data.TrimDecimal();
@@ -113,20 +118,43 @@ namespace Surge.Shared.Common
 
         private static string ToBytes(this double data, ServerUnits units)
         {
-            var doubleVal = data;
-            int pos;
+            var unitPos = data.GetUnit(units);
+            return data.ToBytes(units, unitPos);
+        }
 
-            for (pos = 0; pos < units.Units.Length && doubleVal >= units.Bytes; ++pos)
+        private static string ToBytes(this double data, ServerUnits units, int unitPos)
+        {
+            var localData = data;
+
+            for (int count = 0; count < unitPos; ++count)
             {
-                doubleVal /= units.Bytes;
+                localData /= units.Bytes;
             }
 
-            return String.Format("{0:0.0} {1}", doubleVal.TrimDecimal(), units.Units[pos]);
+            return String.Format("{0:0.0} {1}", localData.TrimDecimal(), units.Units[unitPos]);
+        }
+        private static int GetUnit(this long data, ServerUnits units)
+        {
+            return ((double)data).GetUnit(units);
+        }
+
+        private static int GetUnit(this double data, ServerUnits units)
+        {
+            int pos;
+            var localData = data;
+
+            for (pos = 0; pos < units.Units.Length && localData >= units.Bytes; ++pos)
+            {
+                localData /= units.Bytes;
+            }
+
+            return pos;
         }
 
         public static string ToFileDetailsString(this long numerator, long denominator, ServerUnits units)
         {
-            return $"{numerator.ToSizeString(units)}/{denominator.ToSizeString(units)} ({numerator.ToPercent(denominator)})";
+            var unitPos = denominator.GetUnit(units);
+            return $"{numerator.ToSizeString(units, unitPos)}/{denominator.ToSizeString(units, unitPos)} ({numerator.ToPercent(denominator)})";
         }
 
         internal static string EscapeSlashes(this string value)
