@@ -68,7 +68,7 @@ module Files =
                 else if Seq.length query > 1 then tempStrangeDataFail query
                 else (Seq.exactlyOne query :?> Folder, false)
 
-    let rec private genStructure count id (files : list<TorrentGet.File * TorrentGet.FileStat>) (genFiles : Item list) i =
+    let rec private genStructure sizeBytes count id (files : list<TorrentGet.File * TorrentGet.FileStat>) (genFiles : Item list) i =
         if i < 0 then List.rev genFiles
         else
             let jsonFile = fst files.[i]
@@ -79,7 +79,7 @@ module Files =
                     if (j+1) = path.Length then
                         let pos = count - i
                         let name = path.[j]
-                        File(id, pos, stats.Priority, stats.Wanted, stats.BytesCompleted, name, jsonFile.Length, None) :> Item, true
+                        File(id, pos, stats.Priority, stats.Wanted, stats.BytesCompleted / sizeBytes, name, jsonFile.Length / sizeBytes, None) :> Item, true
                     else
                         let folder, newFolder = getOrGenFolder id genFiles path j
                         let childItem, newChild = child.Value
@@ -116,14 +116,14 @@ module Files =
                                   else addRec (Seq.skip 1 items) list
                               addRec (List.rev toAddItems) genFiles
 
-            genStructure count id files newList (i - 1)
+            genStructure sizeBytes count id files newList (i - 1)
 
     let private genFile torrentid count i (file : TorrentGet.File * TorrentGet.FileStat) =
         let f = fst file
         let s = snd file
         File(torrentid, count - i, s.Priority, s.Wanted, s.BytesCompleted, f.Name, f.Length, None) :> Item
 
-    let internal deserialiseFiles torrentid genFiles (files : array<TorrentGet.File * TorrentGet.FileStat>) =
+    let internal deserialiseFiles torrentid genFiles sizeBytes (files : array<TorrentGet.File * TorrentGet.FileStat>) =
         if files |> Array.isEmpty then []
         else
             let count = Array.length files - 1
@@ -133,7 +133,7 @@ module Files =
                 |> Array.toList
 
             match genFiles with
-            | true -> genStructure count torrentid files' [] count
+            | true -> genStructure sizeBytes count torrentid files' [] count
             | false ->
                 let fileGenerator = genFile torrentid count
                 files' |> List.mapi fileGenerator

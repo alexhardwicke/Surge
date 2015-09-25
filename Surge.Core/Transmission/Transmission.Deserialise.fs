@@ -48,11 +48,13 @@ module internal Deserialise =
         }
 
     let GenerateServer (stats : TransmissionServerStats) (get : TransmissionServerGet) =
-        { DownloadSpeed = stats.DownloadSpeed
-          UploadSpeed = stats.UploadSpeed
+        // Size/Speed are divided once because the units Transmission provides
+        // start at KiB, but the value is bytes.
+        { DownloadSpeed = stats.DownloadSpeed / int64 get.SpeedUnits.Bytes
+          UploadSpeed = stats.UploadSpeed / int64 get.SpeedUnits.Bytes
           ServerVersion = get.ServerVersion
           DefaultDownloadLocation = get.DefaultDownloadLocation
-          SpaceRemaining = get.SpaceRemaining
+          SpaceRemaining = get.SpaceRemaining / int64 get.SizeUnits.Bytes
           MemoryUnits = get.MemoryUnits
           SizeUnits = get.SizeUnits
           SpeedUnits = get.SpeedUnits
@@ -63,7 +65,7 @@ module internal Deserialise =
         seq |> Seq.iter(fun t -> dictionary.Add(t.ID, t))
         dictionary
 
-    let DeserialiseTorrents torrentData torrentDataTracker =
+    let DeserialiseTorrents torrentData torrentDataTracker speedBytes sizeBytes =
         let jsonDeserialise (torrentData : string) =
             (TorrentGet.Parse torrentData).Arguments.Torrents
 
@@ -80,7 +82,7 @@ module internal Deserialise =
 
             let files =
                 Array.zip jsonTorrent.Files jsonTorrent.FileStats
-                |>  deserialiseFiles jsonTorrent.Id generateFiles
+                |>  deserialiseFiles jsonTorrent.Id generateFiles sizeBytes
 
             // Should require queuePosition in the future
             let queuePosition =
@@ -88,6 +90,8 @@ module internal Deserialise =
                 | Some(value) -> value
                 | None -> jsonTorrent.Id
 
+            // Size/Speed are divided once because the units Transmission provides
+            // start at KiB, but the value is bytes.
             { Files = files
               ID = jsonTorrent.Id
               IsFinished = jsonTorrent.IsFinished
@@ -103,14 +107,14 @@ module internal Deserialise =
               VerifiedPercent = float jsonTorrent.RecheckProgress
               Percent = float jsonTorrent.PercentDone
               Ratio = if jsonTorrent.UploadRatio > 0.0M then float jsonTorrent.UploadRatio else 0.0
-              Availability = jsonTorrent.DesiredAvailable + jsonTorrent.HaveValid + jsonTorrent.HaveUnchecked
-              Desired = jsonTorrent.DesiredAvailable
-              Downloaded = jsonTorrent.HaveValid + jsonTorrent.HaveUnchecked
-              DownloadSpeed = jsonTorrent.RateDownload
+              Availability = (jsonTorrent.DesiredAvailable + jsonTorrent.HaveValid + jsonTorrent.HaveUnchecked) / sizeBytes
+              Desired = jsonTorrent.DesiredAvailable / sizeBytes
+              Downloaded = (jsonTorrent.HaveValid + jsonTorrent.HaveUnchecked) / sizeBytes
+              DownloadSpeed = jsonTorrent.RateDownload / speedBytes
               QueuePosition = queuePosition
-              Size = jsonTorrent.SizeWhenDone
-              Uploaded = jsonTorrent.UploadedEver
-              UploadSpeed = jsonTorrent.RateUpload
+              Size = jsonTorrent.SizeWhenDone / sizeBytes
+              Uploaded = jsonTorrent.UploadedEver / sizeBytes
+              UploadSpeed = (jsonTorrent.RateUpload / speedBytes)
               LastActivity = unixTime - jsonTorrent.ActivityDate
               RemainingTime = jsonTorrent.Eta
               RunningTime = jsonTorrent.SecondsDownloading + jsonTorrent.SecondsSeeding }

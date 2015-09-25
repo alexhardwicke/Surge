@@ -29,8 +29,8 @@ module internal Implementation =
             
             Seq.concat [n'; u'; m']
 
-        let processTorrentData (torrentData : TorrentDataTracker) torrentResult =
-            let torrents = DeserialiseTorrents(torrentResult) torrentData
+        let processTorrentData speedBytes sizeBytes (torrentData : TorrentDataTracker) torrentResult =
+            let torrents = DeserialiseTorrents(torrentResult) torrentData speedBytes sizeBytes
             let currentIDs = Set.ofSeq(query { for torrent in torrentData do select torrent.Id })
             let serverIDs = Set.ofSeq(query { for torrent in torrents do select torrent.ID})
 
@@ -75,32 +75,36 @@ module internal Implementation =
             return result  }
 
         let getTorrentUpdate = getFromServer TorrentDetails
-        let getStats = getFromServer SessionStats 
-        let getGet = getFromServer SessionGet
+        let getStats = getFromServer SessionStats DeserialiseStats
+        let getGet = getFromServer SessionGet DeserializeGet
 
         let getUpdate torrentData = async {
             try
-                let! torr = getTorrentUpdate (processTorrentData torrentData)
-                let! stat = getStats DeserialiseStats
-                let! get = getGet DeserializeGet
+                let! stat = getStats
+                let! get = getGet
 
-                match (torr, stat, get) with
-                | (Error e, _, _) | (_, Error e, _) | (_, _, Error e) ->
+                match (stat, get) with
+                | (Error e, _) | (_, Error e) ->
                     return None
-                | (Success (n, u, m, d), Success statData, Success getData) ->
-                    let server = GenerateServer statData getData
-                    if server.ServerVersion < minSupportedServerVersion || server.ServerVersion > maxSupportedServerVersion then
-                        do! onError InternalError.Version
-                        return None
-                    else
-                        let updateData = {
-                            NewTorrents = n
-                            UpdatedTorrents = u
-                            DeletedTorrents = d
-                            ServerStats = server }
+                | (Success statData, Success getData) ->
+                    let! torr = getTorrentUpdate (processTorrentData (int64 getData.SpeedUnits.Bytes) (int64 getData.SizeUnits.Bytes) torrentData)
+                    match torr with
+                    | Success (n, u, m, d) ->
+                        let server = GenerateServer statData getData
+                        if server.ServerVersion < minSupportedServerVersion || server.ServerVersion > maxSupportedServerVersion then
+                            do! onError InternalError.Version
+                            return None
+                        else
+                            let updateData = {
+                                NewTorrents = n
+                                UpdatedTorrents = u
+                                DeletedTorrents = d
+                                ServerStats = server }
 
-                        let torrentData' = generateTorrentData n u m
-                        return Some { UpdateData = updateData ; TorrentData = torrentData' }
+                            let torrentData' = generateTorrentData n u m
+                            return Some { UpdateData = updateData ; TorrentData = torrentData' }
+                    | Error e ->
+                        return None
             with
             | ex ->
                 if ex.Message.StartsWith "Invalid JSON" then
