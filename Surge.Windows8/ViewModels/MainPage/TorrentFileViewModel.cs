@@ -30,7 +30,7 @@ namespace Surge.Windows8.ViewModels.MainPage
 
         public ObservableCollection<ItemViewModel> Files { get; private set; }
 
-        public void Update(IEnumerable<Item> items)
+        public void Update(IEnumerable<Item> items, ServerUnits sizeUnits)
         {
             var itemList = items.ToList();
             if (Files.Count == 0)
@@ -47,7 +47,7 @@ namespace Surge.Windows8.ViewModels.MainPage
                     ItemViewModel itemToAdd;
                     if (item is File)
                     {
-                        itemToAdd = ItemViewModel.Create(item as File, parent, _id, _eventAggregator);
+                        itemToAdd = ItemViewModel.Create(item as File, parent, _id, _eventAggregator, sizeUnits);
                     }
                     else
                     {
@@ -86,7 +86,7 @@ namespace Surge.Windows8.ViewModels.MainPage
                     {
                         try
                         {
-                            (item as FileViewModel).Update(itemList[(item as FileViewModel).Id] as File);
+                            (item as FileViewModel).Update(itemList[(item as FileViewModel).Id] as File, sizeUnits);
                         }
                         catch (Exception e)
                         {

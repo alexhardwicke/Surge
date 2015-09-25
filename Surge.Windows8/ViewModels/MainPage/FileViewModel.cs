@@ -13,10 +13,12 @@ namespace Surge.Windows8.ViewModels.MainPage
         private long _bytesCompleted;
         private bool _isWanted;
         private int _priority;
+        private ServerUnits _sizeUnits;
 
-        public FileViewModel(File file, FolderViewModel parent, int torrentId, IEventAggregator eventAggregator)
+        public FileViewModel(File file, FolderViewModel parent, int torrentId, IEventAggregator eventAggregator, ServerUnits sizeUnits)
             : base(file, parent, torrentId, eventAggregator)
         {
+            _sizeUnits = sizeUnits;
             isUpdating = true;
             Priority = file.Priority + 1;
             IsWanted = file.IsWanted;
@@ -105,7 +107,7 @@ namespace Surge.Windows8.ViewModels.MainPage
         {
             get
             {
-                return BytesCompleted.ToFileDetailsString(Size);
+                return BytesCompleted.ToFileDetailsString(Size, _sizeUnits);
             }
         }
 
@@ -121,8 +123,10 @@ namespace Surge.Windows8.ViewModels.MainPage
             }
         }
 
-        public void Update(Item item)
+        public void Update(Item item, ServerUnits sizeUnits)
         {
+            _sizeUnits = sizeUnits;
+
             var file = item as File;
 
             BytesCompleted = file.BytesCompleted;

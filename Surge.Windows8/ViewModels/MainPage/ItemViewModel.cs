@@ -89,9 +89,9 @@ namespace Surge.Windows8.ViewModels.MainPage
             return new FolderViewModel(folder, parent, torrentId, eventAggregator);
         }
 
-        public static ItemViewModel Create(File file, FolderViewModel parent, int torrentId, IEventAggregator eventAggregator)
+        public static ItemViewModel Create(File file, FolderViewModel parent, int torrentId, IEventAggregator eventAggregator, ServerUnits sizeUnits)
         {
-            return new FileViewModel(file, parent, torrentId, eventAggregator);
+            return new FileViewModel(file, parent, torrentId, eventAggregator, sizeUnits);
         }
     }
 }

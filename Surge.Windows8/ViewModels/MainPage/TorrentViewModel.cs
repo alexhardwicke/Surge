@@ -37,13 +37,13 @@ namespace Surge.Windows8.ViewModels.MainPage
         private string _location;
         private long _queue;
 
-        public TorrentViewModel(Torrent torrent, IEventAggregator eventAggregator, ErrorTracker errorTracker)
+        public TorrentViewModel(Torrent torrent, IEventAggregator eventAggregator, ErrorTracker errorTracker, ServerUnits speedUnits, ServerUnits sizeUnits)
         {
             Id = torrent.ID;
             TorrentFileViewModel = new TorrentFileViewModel(Id, eventAggregator, errorTracker);
-            Size = torrent.Size.ToSizeString();
+            Size = torrent.Size.ToSizeString(sizeUnits);
             Hash = torrent.Hash;
-            Update(torrent);
+            Update(torrent, speedUnits, sizeUnits);
         }
 
         public bool IsUserModified { get; set; }
@@ -416,7 +416,7 @@ namespace Surge.Windows8.ViewModels.MainPage
 
         public TorrentFileViewModel TorrentFileViewModel { get; set; }
 
-        public void Update(Torrent torrent)
+        public void Update(Torrent torrent, ServerUnits speedUnits, ServerUnits sizeUnits)
         {
             // We only update certain properties if the user has a clean object.
             // Otherwise we ignore the change this time, but clear the flag.
@@ -433,12 +433,12 @@ namespace Surge.Windows8.ViewModels.MainPage
             _magnetResolvedPercentValue = torrent.MagnetResolvedPercent;
             _verifiedPercentValue = torrent.VerifiedPercent;
             IsMagnetResolving = torrent.IsMagnetResolving;
-            DownloadSpeed = torrent.DownloadSpeed.ToSpeedString();
-            UploadSpeed = torrent.UploadSpeed.ToSpeedString();
+            DownloadSpeed = torrent.DownloadSpeed.ToSpeedString(speedUnits);
+            UploadSpeed = torrent.UploadSpeed.ToSpeedString(speedUnits);
             Availability = torrent.Availability.ToPercent(torrent.Size);
             RemainingTime = torrent.RemainingTime.ToTimeString();
-            Downloaded = torrent.Downloaded.ToSizeString();
-            Uploaded = torrent.Uploaded.ToSizeString();
+            Downloaded = torrent.Downloaded.ToSizeString(sizeUnits);
+            Uploaded = torrent.Uploaded.ToSizeString(sizeUnits);
             RunningTime = torrent.RunningTime.ToTimeString();
             LastActivity = torrent.LastActivity.ToTimeString();
             Percent = torrent.Percent.ToPercent();
@@ -457,10 +457,10 @@ namespace Surge.Windows8.ViewModels.MainPage
 
             if (torrent.Size > 0)
             {
-                Size = torrent.Size.ToSizeString();
+                Size = torrent.Size.ToSizeString(sizeUnits);
             }
 
-            TorrentFileViewModel.Update(torrent.Files);
+            TorrentFileViewModel.Update(torrent.Files, sizeUnits);
         }
     }
 }
