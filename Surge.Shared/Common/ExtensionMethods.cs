@@ -17,42 +17,34 @@ namespace Surge.Shared.Common
         private static HashSet<string> s_imageTypes = new HashSet<string> { ".png", ".jpg", ".gif", ".tiff", ".bmp", ".tif", ".psd", ".jpeg" };
         private static HashSet<string> s_videoTypes = new HashSet<string> { ".avi", ".divx", ".flv", ".wmv", ".mpg", ".mpeg", ".mp4", ".mov" };
 
-        public static string ToPercent(this long numerator, long denominator)
+        public static string EscapeSlashes(this string value) =>
+            string.IsNullOrEmpty(value) ? string.Empty : Regex.Replace(value, @"\\", @"\\");
+
+        public static string ToNoneIfEmpty(this string data) =>
+            data.Trim('"') == string.Empty ? "None" : data;
+
+        public static string ToSizeString(this long data, ServerUnits units) =>
+            ((double)data).ToBytes(units);
+
+        public static string ToRatioString(this double data) =>
+            data.TrimDecimal();
+
+        public static string ToPercent(this double percent) =>
+            (100.0 * percent).ToString().ToPercent();
+
+        public static string ToPercent(this string percent) =>
+            $"{percent}%";
+
+        public static string ToPercent(this long numerator, long denominator) =>
+            denominator == 0 ? "0%" : (((double)numerator / (double)denominator) * 100).TrimDecimal().ToPercent();
+
+        public static string ToTimeString(this int time) =>
+            ((long)time).ToTimeString();
+
+        public static string ToFileDetailsString(this long numerator, long denominator, ServerUnits units)
         {
-            if (denominator == 0)
-            {
-                return "0%";
-            }
-
-            double value = numerator;
-            value /= (double)denominator;
-            value *= 100;
-            return value.TrimDecimal().ToPercent();
-        }
-
-        public static string ToNoneIfEmpty(this string data)
-        {
-            if (data.Trim('"') == string.Empty)
-            {
-                return "None";
-            }
-
-            return data;
-        }
-
-        public static string ToPercent(this double percent)
-        {
-            return (100.0 * percent).ToString().ToPercent();
-        }
-
-        public static string ToPercent(this string percent)
-        {
-            return $"{percent}%";
-        }
-
-        public static string ToTimeString(this int time)
-        {
-            return ((long)time).ToTimeString();
+            var unitPos = denominator.GetUnit(units);
+            return $"{numerator.ToSizeString(units, unitPos)}/{denominator.ToSizeString(units, unitPos)} ({numerator.ToPercent(denominator)})";
         }
 
         public static string ToTimeString(this long time)
@@ -79,20 +71,11 @@ namespace Surge.Shared.Common
             return string.Join(" and ", result);
         }
 
-        public static string ToSizeString(this long data, ServerUnits units)
-        {
-            return ((double)data).ToBytes(units);
-        }
+        private static string ToBytes(this double data, ServerUnits units) =>
+            data.ToBytes(units, data.GetUnit(units));
 
-        public static string ToSizeString(this long data, ServerUnits units, int unitPos)
-        {
-            return ((double)data).ToBytes(units, unitPos);
-        }
-
-        public static string ToRatioString(this double data)
-        {
-            return data.TrimDecimal();
-        }
+        private static string ToSizeString(this long data, ServerUnits units, int unitPos) =>
+            ((double)data).ToBytes(units, unitPos);
 
         private static string TrimDecimal(this double data)
         {
@@ -114,12 +97,6 @@ namespace Surge.Shared.Common
 
             // We want to return everything before the decimal point
             return dataString.Substring(0, preDecimalLength);
-        }
-
-        private static string ToBytes(this double data, ServerUnits units)
-        {
-            var unitPos = data.GetUnit(units);
-            return data.ToBytes(units, unitPos);
         }
 
         private static string ToBytes(this double data, ServerUnits units, int unitPos)
@@ -151,22 +128,6 @@ namespace Surge.Shared.Common
             return pos;
         }
 
-        public static string ToFileDetailsString(this long numerator, long denominator, ServerUnits units)
-        {
-            var unitPos = denominator.GetUnit(units);
-            return $"{numerator.ToSizeString(units, unitPos)}/{denominator.ToSizeString(units, unitPos)} ({numerator.ToPercent(denominator)})";
-        }
-
-        internal static string EscapeSlashes(this string value)
-        {
-            if (string.IsNullOrEmpty(value))
-            {
-                return string.Empty;
-            }
-
-            return Regex.Replace(value, @"\\", @"\\");
-        }
-
         public static FileType GetFileType(this string ext)
         {
             var lowerCase = ext.ToLower();
@@ -175,13 +136,14 @@ namespace Surge.Shared.Common
             {
                 return FileType.Image;
             }
-
-            if (s_videoTypes.Contains(lowerCase))
+            else if (s_videoTypes.Contains(lowerCase))
             {
                 return FileType.Video;
             }
-
-            return FileType.File;
+            else
+            {
+                return FileType.File;
+            }
         }
 
         public static void ForEach<T>(this IEnumerable<T> enumerable, Action<T> action)
