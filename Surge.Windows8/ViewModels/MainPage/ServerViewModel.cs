@@ -94,8 +94,8 @@ namespace Surge.Windows8.ViewModels.MainPage
 
         public void Update(UpdateData updateData)
         {
-            DownloadSpeed = updateData.ServerStats.DownloadSpeed.ToSpeedString(updateData.ServerStats.SpeedUnits);
-            UploadSpeed = updateData.ServerStats.UploadSpeed.ToSpeedString(updateData.ServerStats.SpeedUnits);
+            DownloadSpeed = updateData.ServerStats.DownloadSpeed.ToSizeString(updateData.ServerStats.SpeedUnits);
+            UploadSpeed = updateData.ServerStats.UploadSpeed.ToSizeString(updateData.ServerStats.SpeedUnits);
             DefaultDownloadLocation = updateData.ServerStats.DefaultDownloadLocation;
             RemainingSpace = updateData.ServerStats.SpaceRemaining.ToSizeString(updateData.ServerStats.SizeUnits);
 

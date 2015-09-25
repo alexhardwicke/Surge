@@ -84,11 +84,6 @@ namespace Surge.Shared.Common
             return ((double)data).ToBytes(units);
         }
 
-        public static string ToSpeedString(this long data, ServerUnits units)
-        {
-            return $"{((double)data).ToBytes(units)}/s";
-        }
-
         public static string ToRatioString(this double data)
         {
             return data.TrimDecimal();

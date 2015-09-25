@@ -433,8 +433,8 @@ namespace Surge.Windows8.ViewModels.MainPage
             _magnetResolvedPercentValue = torrent.MagnetResolvedPercent;
             _verifiedPercentValue = torrent.VerifiedPercent;
             IsMagnetResolving = torrent.IsMagnetResolving;
-            DownloadSpeed = torrent.DownloadSpeed.ToSpeedString(speedUnits);
-            UploadSpeed = torrent.UploadSpeed.ToSpeedString(speedUnits);
+            DownloadSpeed = torrent.DownloadSpeed.ToSizeString(speedUnits);
+            UploadSpeed = torrent.UploadSpeed.ToSizeString(speedUnits);
             Availability = torrent.Availability.ToPercent(torrent.Size);
             RemainingTime = torrent.RemainingTime.ToTimeString();
             Downloaded = torrent.Downloaded.ToSizeString(sizeUnits);
