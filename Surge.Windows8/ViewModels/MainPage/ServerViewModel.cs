@@ -3,7 +3,7 @@
 
 using Microsoft.Practices.Prism.Mvvm;
 using Microsoft.Practices.Prism.PubSubEvents;
-
+using Surge.Core.Models;
 using Surge.Core.Network;
 using Surge.Shared.Common;
 
@@ -92,12 +92,12 @@ namespace Surge.Windows8.ViewModels.MainPage
             }
         }
 
-        public void Update(UpdateData updateData)
+        public void Update(ServerStats serverStats)
         {
-            DownloadSpeed = updateData.ServerStats.DownloadSpeed.ToSizeString(updateData.ServerStats.SpeedUnits);
-            UploadSpeed = updateData.ServerStats.UploadSpeed.ToSizeString(updateData.ServerStats.SpeedUnits);
-            DefaultDownloadLocation = updateData.ServerStats.DefaultDownloadLocation;
-            RemainingSpace = updateData.ServerStats.SpaceRemaining.ToSizeString(updateData.ServerStats.SizeUnits);
+            DownloadSpeed = serverStats.DownloadSpeed.ToSizeString(serverStats.SpeedUnits);
+            UploadSpeed = serverStats.UploadSpeed.ToSizeString(serverStats.SpeedUnits);
+            DefaultDownloadLocation = serverStats.DefaultDownloadLocation;
+            RemainingSpace = serverStats.SpaceRemaining.ToSizeString(serverStats.SizeUnits);
 
             if (!IsLoaded)
             {

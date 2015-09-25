@@ -267,7 +267,7 @@ namespace Surge.Windows8.ViewModels.MainPage
 
             UpdateMenu();
             FilterList.Update(backingTorrents);
-            Server.Update(updateData);
+            Server.Update(updateData.ServerStats);
         }
 
         internal void ClearSelection()
