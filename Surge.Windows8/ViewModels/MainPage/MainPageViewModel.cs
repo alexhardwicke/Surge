@@ -404,8 +404,6 @@ namespace Surge.Windows8.ViewModels.MainPage
 
             if (_torrentClient != null)
             {
-                // TODO: What? Why do I have to cast to IDisposable?
-                // The object clearly implements IDisposable...
                 (_torrentClient as IDisposable).Dispose();
             }
         }
